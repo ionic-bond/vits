@@ -35,9 +35,9 @@ net_g = SynthesizerTrn(
     **hps.model).cuda()
 _ = net_g.eval()
 
-_ = utils.load_checkpoint("G_25000.pth", net_g, None)
+_ = utils.load_checkpoint("/content/drive/MyDrive/aqua-vits/G_55000.pth", net_g, None)
 
-stn_tst = get_text("今回のホロマリカ杯ですが、家族の結婚式がちょうど同日被ってしまっていた為不参加という形になりました。今年の大会に向けて1年間コソ練していたので、正直悔しい気持ちでいっぱいですが、家族の晴れ舞台をしっかりと御祝いしてきます！", hps)
+stn_tst = get_text("スカイツリーコラボはじまったわね、もうみんないった↑↑？", hps)
 with torch.no_grad():
     x_tst = stn_tst.cuda().unsqueeze(0)
     x_tst_lengths = torch.LongTensor([stn_tst.size(0)]).cuda()
