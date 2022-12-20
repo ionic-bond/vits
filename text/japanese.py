@@ -126,6 +126,7 @@ def japanese_to_romaji_with_accent(text):
                     text += '↑'
         if i < len(marks):
             text += unidecode(marks[i]).replace(' ', '')
+    print(text)
     return text
 
 

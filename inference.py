@@ -35,9 +35,9 @@ net_g = SynthesizerTrn(
     **hps.model).cuda()
 _ = net_g.eval()
 
-_ = utils.load_checkpoint("/content/drive/MyDrive/aqua-vits/G_55000.pth", net_g, None)
+_ = utils.load_checkpoint("/content/drive/MyDrive/aqua-vits/G_134000.pth", net_g, None)
 
-stn_tst = get_text("スカイツリーコラボはじまったわね、もうみんないった↑↑？", hps)
+stn_tst = get_text("あくありうむもコミケでますぞ", hps)
 with torch.no_grad():
     x_tst = stn_tst.cuda().unsqueeze(0)
     x_tst_lengths = torch.LongTensor([stn_tst.size(0)]).cuda()
