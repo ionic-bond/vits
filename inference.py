@@ -28,7 +28,8 @@ def cli():
 @click.option('--model_path', required=True)
 @click.option('--config_path', required=True)
 @click.option('--output_path', required=True)
-def run(text, model_path, config_path, output_path):
+@click.option('--length_scale', default=1.0)
+def run(text, model_path, config_path, output_path, length_scale):
     hps = utils.get_hparams_from_file(config_path)
 
     net_g = SynthesizerTrn(
@@ -44,5 +45,5 @@ def run(text, model_path, config_path, output_path):
     with torch.no_grad():
         x_tst = stn_tst.cuda().unsqueeze(0)
         x_tst_lengths = torch.LongTensor([stn_tst.size(0)]).cuda()
-        audio = net_g.infer(x_tst, x_tst_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=1)[0][0,0].data.cpu().float().numpy()
+        audio = net_g.infer(x_tst, x_tst_lengths, noise_scale=.667, noise_scale_w=0.8, length_scale=length_scale)[0][0,0].data.cpu().float().numpy()
     write(output_path, hps.data.sampling_rate, audio)
