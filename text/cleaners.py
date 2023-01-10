@@ -9,7 +9,9 @@ def japanese_cleaners(text):
 
 
 def japanese_cleaners2(text):
-    return japanese_cleaners(text).replace('ts', 'ʦ').replace('...', '…')
+    result = japanese_cleaners(text).replace('ts', 'ʦ').replace('...', '…')
+    print(result)
+    return result
 
 
 def korean_cleaners(text):

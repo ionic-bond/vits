@@ -90,6 +90,8 @@ def symbols_to_japanese(text):
 
 def japanese_to_romaji_with_accent(text):
     '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
+    if text.startswith('[p]'):
+        return text[3:]
     text = symbols_to_japanese(text)
     sentences = re.split(_japanese_marks, text)
     marks = re.findall(_japanese_marks, text)
@@ -126,7 +128,6 @@ def japanese_to_romaji_with_accent(text):
                     text += '↑'
         if i < len(marks):
             text += unidecode(marks[i]).replace(' ', '')
-    print(text)
     return text
 
 
