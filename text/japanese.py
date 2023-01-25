@@ -88,7 +88,7 @@ def symbols_to_japanese(text):
     return text
 
 
-def japanese_to_romaji_with_accent(text):
+def japanese_to_romaji(text, with_accent):
     '''Reference https://r9y9.github.io/ttslearn/latest/notebooks/ch10_Recipe-Tacotron.html'''
     if text.startswith('[p]'):
         return text[3:]
@@ -122,10 +122,12 @@ def japanese_to_romaji_with_accent(text):
                     text += ' '
                 # Falling
                 elif a1 == 0 and a2_next == a2 + 1:
-                    text += '↓'
+                    if with_accent:
+                        text += '↓'
                 # Rising
                 elif a2 == 1 and a2_next == 2:
-                    text += '↑'
+                    if with_accent:
+                        text += '↑'
         if i < len(marks):
             text += unidecode(marks[i]).replace(' ', '')
     return text
@@ -144,7 +146,7 @@ def get_real_hatsuon(text):
 
 
 def japanese_to_ipa(text):
-    text = japanese_to_romaji_with_accent(text).replace('...', '…')
+    text = japanese_to_romaji(text, with_accent=True).replace('...', '…')
     text = re.sub(
         r'([aiueo])\1+', lambda x: x.group(0)[0]+'ː'*(len(x.group(0))-1), text)
     text = get_real_sokuon(text)
@@ -155,7 +157,7 @@ def japanese_to_ipa(text):
 
 
 def japanese_to_ipa2(text):
-    text = japanese_to_romaji_with_accent(text).replace('...', '…')
+    text = japanese_to_romaji(text, with_accent=True).replace('...', '…')
     text = get_real_sokuon(text)
     text = get_real_hatsuon(text)
     for regex, replacement in _romaji_to_ipa2:

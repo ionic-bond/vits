@@ -1,9 +1,9 @@
 import re
-from text.japanese import japanese_to_romaji_with_accent
+from text.japanese import japanese_to_romaji
 
 
 def japanese_cleaners(text):
-    text = japanese_to_romaji_with_accent(text)
+    text = japanese_to_romaji(text, with_accent=True)
     text = re.sub(r'([A-Za-z])$', r'\1.', text)
     return text
 
@@ -12,6 +12,14 @@ def japanese_cleaners2(text):
     result = japanese_cleaners(text).replace('ts', 'ʦ').replace('...', '…')
     print(result)
     return result
+
+
+def japanese_no_accent_cleaners(text):
+    text = japanese_to_romaji(text, with_accent=False)
+    text = re.sub(r'([A-Za-z])$', r'\1.', text)
+    text = text.replace('ts', 'ʦ').replace('...', '…')
+    print(text)
+    return text
 
 
 def korean_cleaners(text):
@@ -35,8 +43,8 @@ def chinese_cleaners(text):
 def zh_ja_mixture_cleaners(text):
     text = re.sub(r'\[ZH\](.*?)\[ZH\]',
                   lambda x: chinese_to_romaji(x.group(1))+' ', text)
-    text = re.sub(r'\[JA\](.*?)\[JA\]', lambda x: japanese_to_romaji_with_accent(
-        x.group(1)).replace('ts', 'ʦ').replace('u', 'ɯ').replace('...', '…')+' ', text)
+    text = re.sub(r'\[JA\](.*?)\[JA\]', lambda x: japanese_to_romaji(
+        x.group(1), with_accent=True).replace('ts', 'ʦ').replace('u', 'ɯ').replace('...', '…')+' ', text)
     text = re.sub(r'\s+$', '', text)
     text = re.sub(r'([^\.,!\?\-…~])$', r'\1.', text)
     return text
